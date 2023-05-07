@@ -165,7 +165,7 @@ def what_is_face(face):
     ''' Returns all class names for which this class can be downcasted
     '''
     if not face.ShapeType() == TopAbs_FACE:
-        print('%s is not a TopAbs_FACE. Conversion impossible')
+        print('{} is not a TopAbs_FACE. Conversion impossible'.format(face))
         return None
     hs = BRep_Tool_Surface(face)
     obj = hs
