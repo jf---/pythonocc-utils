@@ -19,20 +19,20 @@
 
 import unittest
 import sys
+import os
 
-sys.path.append('../OCCUtils')
-sys.path.append('../examples')
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from OCC.Core.BRepPrimAPI import BRepPrimAPI_MakeBox, BRepPrimAPI_MakeSphere
 from OCC.Core.TopoDS import TopoDS_Face, TopoDS_Edge
 
-from Topology import Topo, WireExplorer
-from edge import Edge
-from face import Face
-from wire import Wire
-from vertex import Vertex
-from shell import Shell
-from solid import Solid
+from OCCUtils.Topology import Topo, WireExplorer
+from OCCUtils.edge import Edge
+from OCCUtils.face import Face
+from OCCUtils.wire import Wire
+from OCCUtils.vertex import Vertex
+from OCCUtils.shell import Shell
+from OCCUtils.solid import Solid
 
 
 def get_test_box_shape():
@@ -224,19 +224,19 @@ class TestImportOCCUtils(unittest.TestCase):
 
     """
     def test_import(self):
-        import base as base_
-        import Common as Common_
-        import Construct as Construct_
-        import edge as edge_
-        import face as face_
-        import Image as Image_
-        import Iteration as Iteration_
-        import shell as shell_
-        import solid as solid_
-        import Topology as Topology_
-        import types_lut as types_lut_
-        import vertex as vertex_
-        import wire as wire_
+        from OCCUtils import base as base_
+        from OCCUtils import Common as Common_
+        from OCCUtils import Construct as Construct_
+        from OCCUtils import edge as edge_
+        from OCCUtils import face as face_
+        from OCCUtils import Image as Image_
+        from OCCUtils import Iteration as Iteration_
+        from OCCUtils import shell as shell_
+        from OCCUtils import solid as solid_
+        from OCCUtils import Topology as Topology_
+        from OCCUtils import types_lut as types_lut_
+        from OCCUtils import vertex as vertex_
+        from OCCUtils import wire as wire_
 
 class TestExamples(unittest.TestCase):
     def test_geom_plate(self):

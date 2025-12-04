@@ -27,7 +27,7 @@ from OCC.Core.BRepTools import BRepTools_WireExplorer
 from OCC.Core.TopAbs import (TopAbs_VERTEX, TopAbs_EDGE, TopAbs_FACE, TopAbs_WIRE,
                         TopAbs_SHELL, TopAbs_SOLID, TopAbs_COMPOUND,
                         TopAbs_COMPSOLID)
-from OCC.Core.TopExp import TopExp_Explorer, topexp_MapShapesAndAncestors
+from OCC.Core.TopExp import TopExp_Explorer, topexp
 from OCC.Core.TopTools import (TopTools_ListOfShape,
                           TopTools_ListIteratorOfListOfShape,
                           TopTools_IndexedDataMapOfShapeListOfShape)
@@ -306,7 +306,7 @@ class Topo(object):
         '''
         topo_set = set()
         _map = TopTools_IndexedDataMapOfShapeListOfShape()
-        topexp_MapShapesAndAncestors(self.myShape, topoTypeA, topoTypeB, _map)
+        topexp.MapShapesAndAncestors(self.myShape, topoTypeA, topoTypeB, _map)
         results = _map.FindFromKey(topologicalEntity)
         if results.Size() == 0:
             yield None
@@ -344,7 +344,7 @@ class Topo(object):
         '''
         topo_set = set()
         _map = TopTools_IndexedDataMapOfShapeListOfShape()
-        topexp_MapShapesAndAncestors(self.myShape, topoTypeA, topoTypeB, _map)
+        topexp.MapShapesAndAncestors(self.myShape, topoTypeA, topoTypeB, _map)
         results = _map.FindFromKey(topologicalEntity)
         if results.Size() == 0:
             return None
