@@ -45,7 +45,6 @@ from OCC.Core.BRepGProp import (brepgprop_VolumeProperties,
 from OCC.Core.BRepCheck import (BRepCheck_Vertex, BRepCheck_Edge, BRepCheck_Wire,
                                 BRepCheck_Face, BRepCheck_Shell, BRepCheck_Analyzer)
 from OCC.Core.GProp import GProp_GProps
-from OCC.Display.SimpleGui import init_display
 
 from OCCUtils.Common import get_boundingbox
 from OCCUtils.Construct import (make_vertex, TOLERANCE)
@@ -72,6 +71,8 @@ class singleton(object):
 @singleton
 class Display(object):
     def __init__(self):
+        # Lazy import to avoid OCC.Display.SimpleGui import issues
+        from OCC.Display.SimpleGui import init_display
         self.display, self.start_display, self.add_menu, self.add_function_to_menu = init_display()
 
     def __call__(self, *args, **kwargs):
