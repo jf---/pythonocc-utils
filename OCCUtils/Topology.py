@@ -33,8 +33,7 @@ from OCC.Core.TopTools import (TopTools_ListOfShape,
                           TopTools_IndexedDataMapOfShapeListOfShape)
 from OCC.Core.TopoDS import (topods, TopoDS_Wire, TopoDS_Vertex, TopoDS_Edge,
                         TopoDS_Face, TopoDS_Shell, TopoDS_Solid,
-                        TopoDS_Compound, TopoDS_CompSolid, topods_Edge,
-                        topods_Vertex, TopoDS_Iterator)
+                        TopoDS_Compound, TopoDS_CompSolid, TopoDS_Iterator)
 
 
 class WireExplorer(object):
@@ -54,7 +53,7 @@ class WireExplorer(object):
     def _loop_topo(self, edges=True):
         if self.done:
             self._reinitialize()
-        topologyType = topods_Edge if edges else topods_Vertex
+        topologyType = topods.Edge if edges else topods.Vertex
         seq = []
         hashes = []  # list that stores hashes to avoid redundancy
         occ_seq = TopTools_ListOfShape()
@@ -489,7 +488,7 @@ def dumpTopology(shape, level=0):
     brt = BRep_Tool()
     s = shape.ShapeType()
     if s == TopAbs_VERTEX:
-        pnt = brt.Pnt(topods_Vertex(shape))
+        pnt = brt.Pnt(topods.Vertex(shape))
         print(".." * level  + "<Vertex %i: %s %s %s>" % (hash(shape), pnt.X(), pnt.Y(), pnt.Z()))
     else:
         print(".." * level, end="")

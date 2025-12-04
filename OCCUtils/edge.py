@@ -16,7 +16,7 @@
 ##along with pythonOCC.  If not, see <http://www.gnu.org/licenses/>
 
 from OCC.Core.BRep import BRep_Tool, BRep_Tool_Continuity
-from OCC.Core.BRepAdaptor import BRepAdaptor_Curve, BRepAdaptor_HCurve
+from OCC.Core.BRepAdaptor import BRepAdaptor_Curve
 from OCC.Core.BRepIntCurveSurface import BRepIntCurveSurface_Inter
 from OCC.Core.BRepLProp import BRepLProp_CLProps
 from OCC.Core.GCPnts import GCPnts_AbscissaPoint, GCPnts_QuasiUniformDeflection, GCPnts_UniformAbscissa
@@ -222,7 +222,7 @@ class Edge(TopoDS_Edge, BaseObject):
             pass
         else:
             self._adaptor = BRepAdaptor_Curve(self)
-            self._adaptor_handle = BRepAdaptor_HCurve(self._adaptor)
+            self._adaptor_handle = self._adaptor  # In modern OCCT, adaptor is directly usable
         return self._adaptor
 
     @property

@@ -29,7 +29,7 @@ import time
 
 from OCC.Core.BRep import BRep_Builder
 from OCC.Core.BRep import BRep_Tool
-from OCC.Core.BRepAdaptor import BRepAdaptor_HCurve
+from OCC.Core.BRepAdaptor import BRepAdaptor_Curve
 from OCC.Core.BRepFill import BRepFill_CurveConstraint
 from OCC.Core.GeomLProp import GeomLProp_SLProps
 from OCC.Core.GeomPlate import GeomPlate_MakeApprox, GeomPlate_BuildPlateSurface, GeomPlate_PointConstraint
@@ -160,14 +160,13 @@ def build_plate(polygon, points):
     # add curve constraints
     for poly in polygon:
         for edg in WireExplorer(poly).ordered_edges():
-            c = BRepAdaptor_HCurve()
-            c.ChangeCurve().Initialize(edg)
-            constraint = BRepFill_CurveConstraint(c.GetHandle(), 0)
-            bpSrf.Add(constraint.GetHandle())
+            c = BRepAdaptor_Curve(edg)
+            constraint = BRepFill_CurveConstraint(c, 0)
+            bpSrf.Add(constraint)
 
     # add point constraint
     for pt in points:
-        bpSrf.Add(GeomPlate_PointConstraint(pt, 0).GetHandle())
+        bpSrf.Add(GeomPlate_PointConstraint(pt, 0))
         bpSrf.Perform()
 
     maxSeg, maxDeg, critOrder = 9, 8, 0
@@ -176,7 +175,7 @@ def build_plate(polygon, points):
 
     srf = bpSrf.Surface()
     plate = GeomPlate_MakeApprox(srf, tol, maxSeg, maxDeg, dmax, critOrder)
-    uMin, uMax, vMin, vMax = srf.GetObject().Bounds()
+    uMin, uMax, vMin, vMax = srf.Bounds()
 
     return make_face(plate.Surface(), uMin, uMax, vMin, vMax, 1e-4)
 
@@ -279,11 +278,10 @@ def build_geom_plate(edges):
 
     # add curve constraints
     for edg in edges:
-        c = BRepAdaptor_HCurve()
         print('edge:', edg)
-        c.ChangeCurve().Initialize(edg)
-        constraint = BRepFill_CurveConstraint(c.GetHandle(), 0)
-        bpSrf.Add(constraint.GetHandle())
+        c = BRepAdaptor_Curve(edg)
+        constraint = BRepFill_CurveConstraint(c, 0)
+        bpSrf.Add(constraint)
 
     # add point constraint
     try:
@@ -297,7 +295,7 @@ def build_geom_plate(edges):
         srf = bpSrf.Surface()
         plate = GeomPlate_MakeApprox(srf, 1e-04, 100, 9, 1e-03, 0)
 
-        uMin, uMax, vMin, vMax = srf.GetObject().Bounds()
+        uMin, uMax, vMin, vMax = srf.Bounds()
         face = make_face(plate.Surface(), uMin, uMax, vMin, vMax, 1e-6)
     finally:
         return face

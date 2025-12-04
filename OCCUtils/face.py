@@ -16,7 +16,7 @@
 ##along with pythonOCC.  If not, see <http://www.gnu.org/licenses/>
 from typing import Tuple
 
-from OCC.Core.BRep import BRep_Tool_Surface, BRep_Tool
+from OCC.Core.BRep import BRep_Tool
 from OCC.Core.BRepTopAdaptor import BRepTopAdaptor_FClass2d
 from OCC.Core.Geom import Geom_Curve
 from OCC.Core.GeomAPI import GeomAPI_ProjectPointOnSurf
@@ -26,7 +26,7 @@ from OCC.Core.TopExp import topexp
 from OCC.Core.TopoDS import TopoDS_Vertex, TopoDS_Face, TopoDS_Edge
 from OCC.Core.GeomLProp import GeomLProp_SLProps
 from OCC.Core.BRepTools import breptools_UVBounds
-from OCC.Core.BRepAdaptor import BRepAdaptor_Surface, BRepAdaptor_HSurface
+from OCC.Core.BRepAdaptor import BRepAdaptor_Surface
 from OCC.Core.ShapeAnalysis import ShapeAnalysis_Surface
 from OCC.Core.GeomProjLib import geomprojlib
 from OCC.Core.Adaptor3d import Adaptor3d_IsoCurve
@@ -223,7 +223,7 @@ class Face(TopoDS_Face, BaseObject):
     @property
     def surface(self):
         if self._srf is None or self.is_dirty:
-            self._h_srf = BRep_Tool_Surface(self)
+            self._h_srf = BRep_Tool.Surface(self)
             self._srf = self._h_srf
         return self._srf
 
@@ -239,8 +239,7 @@ class Face(TopoDS_Face, BaseObject):
             pass
         else:
             self._adaptor = BRepAdaptor_Surface(self)
-            self._adaptor_handle = BRepAdaptor_HSurface()
-            self._adaptor_handle.Set(self._adaptor)
+            self._adaptor_handle = self._adaptor  # In modern OCCT, adaptor is directly usable
         return self._adaptor
 
     @property
