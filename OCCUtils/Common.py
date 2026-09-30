@@ -23,9 +23,7 @@ from OCC.Core import Graphic3d
 from OCC.Core.BRepAdaptor import (BRepAdaptor_Curve,
                                   BRepAdaptor_CompCurve)
 from OCC.Core.BRepBndLib import brepbndlib
-from OCC.Core.BRepGProp import (brepgprop_LinearProperties,
-                                brepgprop_SurfaceProperties,
-                                brepgprop_VolumeProperties)
+from OCC.Core.BRepGProp import brepgprop
 from OCC.Core.Bnd import Bnd_Box
 from OCC.Core.GProp import GProp_GProps
 from OCC.Core.Geom import Geom_Curve
@@ -455,21 +453,21 @@ class GpropsFromShape(object):
         '''returns the volume of a solid
         '''
         prop = GProp_GProps()
-        brepgprop_VolumeProperties(self.shape, prop, self.tolerance)
+        brepgprop.VolumeProperties(self.shape, prop, self.tolerance)
         return prop
 
     def surface(self):
         '''returns the area of a surface
         '''
         prop = GProp_GProps()
-        brepgprop_SurfaceProperties(self.shape, prop, self.tolerance)
+        brepgprop.SurfaceProperties(self.shape, prop, self.tolerance)
         return prop
 
     def linear(self):
         '''returns the length of a wire or edge
         '''
         prop = GProp_GProps()
-        brepgprop_LinearProperties(self.shape, prop)
+        brepgprop.LinearProperties(self.shape, prop)
         return prop
 
 
